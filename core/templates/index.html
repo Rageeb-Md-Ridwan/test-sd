@@ -1,0 +1,66 @@
+{% extends 'base.html' %} {% load static %} {% block head_title %}Banking
+System{% endblock %} {% block content %}
+<div
+  class="container mx-auto flex flex-col md:flex-row items-center my-12 md:my-24"
+>
+  <div
+    class="flex flex-col w-full lg:w-1/2 justify-center items-start pt-12 pb-24 px-6 bg-white rounded-2xl bg-opacity-70 mx-3"
+  >
+    <h1 class="font-bold text-4xl my-4">Welcome to Librarian Pro</h1>
+    <p class="leading-normal mb-4">
+      LibrarianPro is a comprehensive library management system designed to
+      streamline library operations with ease and efficiency. From cataloging
+      and circulation to patron management and reporting, LibrarianPro empowers
+      librarians to manage their collections effortlessly. With user-friendly
+      interfaces and robust features, LibrarianPro is the ultimate solution for
+      modern libraries.
+    </p>
+  </div>
+  <div class="w-full lg:w-1/2 lg:py-6 text-center">
+    <img class="rounded-2xl" src="{% static './img/sfs.png' %}" />
+  </div>
+</div>
+<h4 class="px-5 mt-5 mb-4">All Categories:</h4>
+<div class="px-5 d-flex gap-4 mb-4">
+  {% for cat in category %}
+  <a
+    class="btn btn-outline-danger"
+    href="{% url 'category_wise_post' cat.slug %}"
+    >{{cat.name}}</a
+  >
+  {% endfor %}
+</div>
+
+<div class="d-flex flex-wrap px-5">
+  <div class="col-10">
+    <h5 class="text-success">Result/s found: {{data | length}}</h5>
+    <div class="d-flex flex-wrap">
+      {% for post in data %}
+      <div class="col-sm-3">
+        <div class="card m-2">
+          <div class="card-body">
+            <img src="{{post.image.url}}" class="card-img-top" alt="..." />
+            <h5 class="card-title">
+              <a
+                href="{% url 'detail_post' post.id %}"
+                class="text-decoration-none text-dark"
+                >{{post.title}}</a
+              >
+            </h5>
+            <p>Price: {{post.price}} $</p>
+            <p>
+              Brand : {% for cat in post.category.all %}
+              <button class="btn btn-outline-dark btn-sm m-2" disabled>
+                {{cat.name}}
+              </button>
+              {% endfor %}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
